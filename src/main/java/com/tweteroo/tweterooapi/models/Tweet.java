@@ -6,9 +6,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+@NoArgsConstructor
 public class Tweet {
 
 	@Id
@@ -25,11 +27,10 @@ public class Tweet {
 	private String tweet;
 
 	public Tweet(
-			String username,
-			String avatar,
+			User user,
 			String tweet) {
-		this.username = username;
-		this.avatar = avatar;
+		this.username = user.getUsername();
+		this.avatar = user.getAvatar();
 		this.tweet = tweet;
 	}
 
