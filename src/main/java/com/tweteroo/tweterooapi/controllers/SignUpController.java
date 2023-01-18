@@ -21,9 +21,10 @@ public class SignUpController {
 	private UserRepository userRepository;
 
 	@PostMapping
-	public void createUser(@RequestBody UserDTO userDTO) {
+	public String createUser(@RequestBody UserDTO userDTO) {
 		User user = new User(userDTO);
 		userRepository.save(user);
+		return "OK";
 	}
 
 	@GetMapping
