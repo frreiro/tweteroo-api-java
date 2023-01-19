@@ -13,6 +13,8 @@ import com.tweteroo.tweterooapi.DTO.UserDTO;
 import com.tweteroo.tweterooapi.models.User;
 import com.tweteroo.tweterooapi.repositories.UserRepository;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/sign-up")
 public class SignUpController {
@@ -21,7 +23,15 @@ public class SignUpController {
 	private UserRepository userRepository;
 
 	@PostMapping
-	public String createUser(@RequestBody UserDTO userDTO) {
+	public String createUser(@Valid @RequestBody UserDTO userDTO) {
+
+		User userDB = userRepository.findByUsername(userDTO.username());
+		if (userDB != null) {
+
+			// TODO: retornar status code correto
+			return "User already exists";
+		}
+
 		User user = new User(userDTO);
 		userRepository.save(user);
 		return "OK";

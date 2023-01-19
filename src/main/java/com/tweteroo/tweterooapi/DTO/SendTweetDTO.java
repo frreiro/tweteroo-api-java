@@ -1,7 +1,9 @@
 package com.tweteroo.tweterooapi.DTO;
 
+import jakarta.validation.constraints.NotBlank;
+
 public record SendTweetDTO(
-		String username,
-		String tweet) {
+		@NotBlank String username,
+		@NotBlank String tweet) {
 
 }

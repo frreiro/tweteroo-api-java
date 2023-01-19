@@ -16,6 +16,8 @@ import com.tweteroo.tweterooapi.models.User;
 import com.tweteroo.tweterooapi.repositories.TweetRepository;
 import com.tweteroo.tweterooapi.repositories.UserRepository;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/tweets")
 public class TweetController {
@@ -26,9 +28,11 @@ public class TweetController {
 	private TweetRepository tweetRepository;
 
 	@PostMapping
-	public String createTweet(@RequestBody SendTweetDTO sendTweetDTO) {
+	public String createTweet(@Valid @RequestBody SendTweetDTO sendTweetDTO) {
 		User user = userRepository.findByUsername(sendTweetDTO.username());
 		if (user == null) {
+
+			// TODO: retornar status code correto
 			return "User not found";
 		}
 
@@ -45,6 +49,9 @@ public class TweetController {
 	@GetMapping("/{username}")
 	public List<Tweet> getTweetsByUsername(@PathVariable String username) {
 		User user = userRepository.findByUsername(username);
+		if (user == null) {
+			// TODO: retornar que o usuário não existe;
+		}
 		return tweetRepository.findByUserId(user.getId());
 	}
 }
