@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tweteroo.tweterooapi.DTO.UserDTO;
 import com.tweteroo.tweterooapi.models.User;
 import com.tweteroo.tweterooapi.repositories.UserRepository;
+import com.tweteroo.tweterooapi.services.SignUpService;
 
 import jakarta.validation.Valid;
 
@@ -22,26 +23,16 @@ import jakarta.validation.Valid;
 public class SignUpController {
 
 	@Autowired
-	private UserRepository userRepository;
+	private SignUpService signUpService;
 
 	@PostMapping
 	public String createUser(@Valid @RequestBody UserDTO userDTO) {
-
-		User userDB = userRepository.findByUsername(userDTO.username());
-		if (userDB != null) {
-
-			// TODO: retornar status code correto
-			return "User already exists";
-		}
-
-		User user = new User(userDTO);
-		userRepository.save(user);
-		return "OK";
+		return signUpService.save(userDTO);
 	}
 
 	@GetMapping
 	public List<User> getUsers() {
-		return userRepository.findAll();
+		return signUpService.findAll();
 	}
 
 }

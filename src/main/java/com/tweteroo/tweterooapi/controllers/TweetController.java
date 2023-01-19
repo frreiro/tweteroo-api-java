@@ -22,6 +22,7 @@ import com.tweteroo.tweterooapi.models.Tweet;
 import com.tweteroo.tweterooapi.models.User;
 import com.tweteroo.tweterooapi.repositories.TweetRepository;
 import com.tweteroo.tweterooapi.repositories.UserRepository;
+import com.tweteroo.tweterooapi.services.TweetService;
 
 import jakarta.validation.Valid;
 
@@ -31,31 +32,16 @@ import jakarta.validation.Valid;
 public class TweetController {
 
 	@Autowired
-	private UserRepository userRepository;
-	@Autowired
-	private TweetRepository tweetRepository;
+	private TweetService tweetService;
 
 	@PostMapping
 	public String createTweet(@Valid @RequestBody SendTweetDTO sendTweetDTO) {
-		User user = userRepository.findByUsername(sendTweetDTO.username());
-		if (user == null) {
-
-			// TODO: retornar status code correto
-			return "User not found";
-		}
-
-		Tweet tweet = new Tweet(user, sendTweetDTO.tweet());
-		tweetRepository.save(tweet);
-		return "OK";
+		return tweetService.save(sendTweetDTO);
 	}
 
 	@GetMapping
 	public Page<Tweet> getTweets(@RequestParam(value = "page", defaultValue = "0") int page) {
-		// TODO: check if is pattern return the Page Object or a List
-		Pageable pageable = PageRequest.of(page, 5, Sort.by(Direction.DESC, "id"));
-		// Page pageTweet = tweetRepository.findAll(pageable);
-		// return pageTweet.getContent();
-		return tweetRepository.findAll(pageable);
+		return tweetService.findAll(page);
 	}
 
 	@GetMapping("/{username}")
@@ -63,11 +49,6 @@ public class TweetController {
 			@PathVariable String username,
 			@RequestParam(value = "page", defaultValue = "0") int page) {
 
-		User user = userRepository.findByUsername(username);
-		if (user == null) {
-			// TODO: retornar que o usuário não existe;
-		}
-		Sort sort = Sort.by(Direction.DESC, "id");
-		return tweetRepository.findAllByUserId(user.getId(), sort);
+		return tweetService.findAllByUserId(username, page);
 	}
 }
