@@ -32,13 +32,13 @@ $ git clone git@github.com:frreiro/tweteroo-api-java.git
 
 - [x] User signup
 - [x] User create tweet
-- [ ] Read all tweets with pagination
+- [x] Read all tweets with pagination
 - [x] Read a single user tweets
 
 ## 🔀 Routes
 
 - **POST** `/signup` - Create a new User
-  - headers: none
+  - headers: default
   - body:
 	```json
 	{
@@ -49,7 +49,7 @@ $ git clone git@github.com:frreiro/tweteroo-api-java.git
   - response: `OK` 
 
 - **POST** `/tweets` - Post a user tweet 
-  - headers: none
+  - headers: default
   - body: 
   ```json
 	{
@@ -59,20 +59,48 @@ $ git clone git@github.com:frreiro/tweteroo-api-java.git
 	```
   - response: `OK` 
 - **GET** `/tweets` - Get tweet from all users with pagination
-    - headers: none 
+    - headers: default 
     - body: none
     - response:
     ```json
-	[
-		{
-		"username": "yourusername",
-		"avatar": "useravatarurl",
-		"tweet": "lorem ipsum dolor sit amet",
-		}	
-	]
+	{
+		"content": [
+			{
+			"username": "yourusername",
+			"avatar": "useravatarurl",
+			"tweet": "lorem ipsum dolor sit amet",
+			}	
+		],
+		"pageable": {
+		"sort": {
+			"empty": false,
+			"sorted": true,
+			"unsorted": false
+			},
+		"offset": 0,
+		"pageNumber": 0,
+		"pageSize": 5,
+		"paged": true,
+		"unpaged": false
+		},
+		"totalPages": 0,
+		"totalElements": 0,
+		"last": true,
+		"size": 5,
+		"number": 0,
+		"sort": {
+			"empty": false,
+			"sorted": true,
+			"unsorted": false
+			},
+		"numberOfElements": 0,
+		"first": true,
+		"empty": true
+	}
+	
 	``` 
-- **GET** `/tweets/USERNAME` - Get user tweets
-    - headers: none 
+- **GET** `/tweets/{USERNAME}` - Get user tweets
+    - headers: default 
     - body: none
     - response:
     ```json
@@ -85,7 +113,7 @@ $ git clone git@github.com:frreiro/tweteroo-api-java.git
 	]
 	``` 
 - **GET** `/health` - Get API health
-    - headers: 
+    - headers: default
     - body: none
     - response: `OK`
 

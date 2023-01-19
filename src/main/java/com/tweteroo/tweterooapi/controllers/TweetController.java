@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +26,7 @@ import com.tweteroo.tweterooapi.repositories.UserRepository;
 import jakarta.validation.Valid;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/tweets")
 public class TweetController {
 
@@ -47,16 +51,15 @@ public class TweetController {
 
 	@GetMapping
 	public Page<Tweet> getTweets(@RequestParam(value = "page", defaultValue = "0") int page) {
-		System.out.println(page);
 		// TODO: check if is pattern return the Page Object or a List
-		Pageable pageable = PageRequest.of(page, 5);
+		Pageable pageable = PageRequest.of(page, 5, Sort.by(Direction.DESC, "id"));
 		// Page pageTweet = tweetRepository.findAll(pageable);
 		// return pageTweet.getContent();
 		return tweetRepository.findAll(pageable);
 	}
 
 	@GetMapping("/{username}")
-	public Page<Tweet> getTweetsByUsername(
+	public List<Tweet> getTweetsByUsername(
 			@PathVariable String username,
 			@RequestParam(value = "page", defaultValue = "0") int page) {
 
@@ -64,8 +67,7 @@ public class TweetController {
 		if (user == null) {
 			// TODO: retornar que o usuário não existe;
 		}
-		Pageable pageable = PageRequest.of(page, 5);
-
-		return tweetRepository.findAllByUserId(user.getId(), pageable);
+		Sort sort = Sort.by(Direction.DESC, "id");
+		return tweetRepository.findAllByUserId(user.getId(), sort);
 	}
 }
