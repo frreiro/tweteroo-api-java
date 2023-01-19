@@ -30,8 +30,8 @@ $ git clone git@github.com:frreiro/tweteroo-api-java.git
 
 ## 📌 Features
 
-- [ ] User signup
-- [ ] User create tweet
+- [x] User signup
+- [x] User create tweet
 - [ ] Read all tweets with pagination
 - [ ] Read a single user tweets
 

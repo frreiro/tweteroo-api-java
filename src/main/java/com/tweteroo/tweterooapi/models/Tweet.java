@@ -1,5 +1,7 @@
 package com.tweteroo.tweterooapi.models;
 
+import org.hibernate.annotations.Type;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,6 +9,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+//TODO: passar a classe User ao invés do userId;
 
 @Data
 @Entity
@@ -24,6 +28,9 @@ public class Tweet {
 	private String avatar;
 
 	@Column(nullable = false)
+	private Long userId;
+
+	@Column(nullable = false)
 	private String tweet;
 
 	public Tweet(
@@ -31,6 +38,7 @@ public class Tweet {
 			String tweet) {
 		this.username = user.getUsername();
 		this.avatar = user.getAvatar();
+		this.userId = user.getId();
 		this.tweet = tweet;
 	}
 
