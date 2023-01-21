@@ -125,12 +125,3 @@ $ git clone git@github.com:frreiro/tweteroo-api-java.git
     - response: `OK`
 
 
-### Query details
-
-
-
-
-## 💽 Database
-
- ___ not implemented yet ___
-
