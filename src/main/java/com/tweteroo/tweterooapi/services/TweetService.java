@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.tweteroo.tweterooapi.DTO.SendTweetDTO;
+import com.tweteroo.tweterooapi.exceptions.NotFoundException;
 import com.tweteroo.tweterooapi.models.Tweet;
 import com.tweteroo.tweterooapi.models.User;
 import com.tweteroo.tweterooapi.repositories.TweetRepository;
@@ -28,8 +29,7 @@ public class TweetService {
 		User user = userRepository.findByUsername(sendTweetDTO.username());
 		if (user == null) {
 
-			// TODO: retornar status code correto
-			return "User not found";
+			throw new NotFoundException();
 		}
 
 		Tweet tweet = new Tweet(user, sendTweetDTO.tweet());
@@ -38,10 +38,7 @@ public class TweetService {
 	}
 
 	public Page<Tweet> findAll(int page) {
-		// TODO: check if is pattern return the Page Object or a List
 		Pageable pageable = PageRequest.of(page, 5, Sort.by(Direction.DESC, "id"));
-		// Page pageTweet = tweetRepository.findAll(pageable);
-		// return pageTweet.getContent();
 		return tweetRepository.findAll(pageable);
 	}
 
@@ -49,7 +46,7 @@ public class TweetService {
 
 		User user = userRepository.findByUsername(username);
 		if (user == null) {
-			// TODO: retornar que o usuário não existe;
+			throw new NotFoundException();
 		}
 		Sort sort = Sort.by(Direction.DESC, "id");
 		return tweetRepository.findAllByUserId(user.getId(), sort);

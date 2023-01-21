@@ -3,6 +3,8 @@ package com.tweteroo.tweterooapi.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tweteroo.tweterooapi.DTO.UserDTO;
 import com.tweteroo.tweterooapi.models.User;
-import com.tweteroo.tweterooapi.repositories.UserRepository;
 import com.tweteroo.tweterooapi.services.SignUpService;
 
 import jakarta.validation.Valid;
@@ -26,13 +27,8 @@ public class SignUpController {
 	private SignUpService signUpService;
 
 	@PostMapping
-	public String createUser(@Valid @RequestBody UserDTO userDTO) {
-		return signUpService.save(userDTO);
-	}
-
-	@GetMapping
-	public List<User> getUsers() {
-		return signUpService.findAll();
+	public ResponseEntity<String> createUser(@Valid @RequestBody UserDTO userDTO) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(signUpService.save(userDTO));
 	}
 
 }
