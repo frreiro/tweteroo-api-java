@@ -58,7 +58,14 @@ $ git clone git@github.com:frreiro/tweteroo-api-java.git
 	}
 	```
   - response: `OK` 
-- **GET** `/tweets` - Get tweet from all users with pagination
+- **GET** `/tweets` - Get tweet from all users with pagination, the size is always 5 tweets
+
+  | Query Params |   type   |         Description          |
+  | :----------: | :------: | :--------------------------: |
+  |     none     |   none   |     first page, page = 0     |
+  |    `page`    | `number` | page number, starting with 0 |
+
+	
     - headers: default 
     - body: none
     - response:
@@ -120,7 +127,7 @@ $ git clone git@github.com:frreiro/tweteroo-api-java.git
 
 ### Query details
 
- ___ not implemented yet ___
+
 
 
 ## 💽 Database
